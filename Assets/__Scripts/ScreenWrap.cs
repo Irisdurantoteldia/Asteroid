@@ -12,7 +12,7 @@ public class ScreenWrap : MonoBehaviour
     {
         // Obtenir la referència a la càmera principal
         camPrincipal = Camera.main;
-        limitsPantalla = GameObject.FindGameObjectWithTag("OnScreenBounds").GetComponent<ScreenBounds>();
+        limitsPantalla = GameObject.FindGameObjectWithTag("ScreenBound").GetComponent<ScreenBounds>();
         // Obtenir l'amplada i l'altura de la pantalla en unitats del món
     }
 
