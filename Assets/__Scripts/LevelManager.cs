@@ -88,10 +88,35 @@ public class LevelManager : MonoBehaviour
                 
             case AsteraX.eGameState.gameOver:
                 Debug.Log("GameOver state");
+                // Assegurar-nos que el panell de Game Over es mostra
+                if (gameOverPanel != null) {
+                    gameOverPanel.SetActive(true);
+                } else {
+                    Debug.LogError("Game Over Panel no està assignat!");
+                }
                 UpdateGameOverPanel();
                 StartCoroutine(GameOverDelay());
                 break;
         }
+    }
+    
+    IEnumerator GameOverDelay()
+    {
+        // Assegurar-nos que el temps està aturat
+        Time.timeScale = 0f;
+        
+        // Esperar abans de tornar al menú principal
+        yield return new WaitForSecondsRealtime(4f);
+        
+        // Amagar el panell de Game Over
+        if (gameOverPanel != null) {
+            gameOverPanel.SetActive(false);
+        }
+        
+        // Tornar al menú principal
+        AsteraX.GAME_STATE = AsteraX.eGameState.mainMenu;
+        currentLevel = 0;
+        Time.timeScale = 1f;
     }
     
     void UpdateLevelText()
@@ -128,11 +153,28 @@ public class LevelManager : MonoBehaviour
             AsteraX.NumInitialAsteroids = initialAsteroids;
             AsteraX.NumAsteroidChildren = childrenPerAsteroid;
             
+            Debug.Log($"Iniciant nivell {currentLevel} amb {initialAsteroids} asteroides i {childrenPerAsteroid} fills per asteroide");
+            
+            // Get the AsteraX instance
+            AsteraX asteraX = FindObjectOfType<AsteraX>();
+            if (asteraX == null)
+            {
+                Debug.LogError("No s'ha trobat una instància de AsteraX!");
+                yield break;
+            }
+            
             // Cambiar al estado de nivel antes de iniciar el nivel
             AsteraX.GAME_STATE = AsteraX.eGameState.level;
             
-            // Iniciar el nivell
-            AsteraX.StartGame();
+            // Només cridar StartGame al primer nivell
+            if (currentLevel == 1)
+            {
+                AsteraX.StartGame();
+            }
+            else 
+            {
+                asteraX.StartLevel(currentLevel);  // Now using the instance reference
+            }
         }
     }
     
@@ -149,16 +191,6 @@ public class LevelManager : MonoBehaviour
         
         // Advance to next level
         AdvanceToNextLevel();
-    }
-    
-    IEnumerator GameOverDelay()
-    {
-        // Wait before returning to title screen
-        yield return new WaitForSecondsRealtime(4f);
-        
-        // Return to main menu
-        AsteraX.GAME_STATE = AsteraX.eGameState.mainMenu;
-        currentLevel = 0;
     }
     
     public void StartGame()

@@ -36,10 +36,15 @@ public class LevelAdvancePanel : MonoBehaviour {
             
             // Actualizar el texto del nivel si está activo
             if (shouldBeActive && levelText != null) {
-                // Mostrar el nivel que acaba de completar
+                // Mostrar el nivel actual y la configuración del siguiente
                 int completedLevel = AsteraX.LEVEL;
-                levelText.text = "NIVEL " + completedLevel + " COMPLETADO";
-                Debug.Log("Panel de avance de nivel activado para el nivel: " + completedLevel);
+                LevelManager levelManager = FindObjectOfType<LevelManager>();
+                string configText = "";
+                if (levelManager != null) {
+                    configText = $"\n\n{levelManager.initialAsteroids} asteroides, {levelManager.childrenPerAsteroid} fills";
+                }
+                levelText.text = $"NIVELL {completedLevel} COMPLETAT{configText}";
+                Debug.Log($"Panel de avance de nivel activado para el nivel: {completedLevel}");
             }
         }
     }

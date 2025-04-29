@@ -200,6 +200,7 @@ public class AsteraX : MonoBehaviour
                 }
             }
         }
+        Debug.Log("Nivell:" + levelNum);
         
         // Valors per defecte si no es troba el nivell
         _numInitialAsteroids = 3;
