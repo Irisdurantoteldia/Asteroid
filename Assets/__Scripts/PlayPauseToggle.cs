@@ -5,7 +5,10 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Toggle))]
 public class PlayPauseToggle : MonoBehaviour {
-
+    [Header("UI Elements")]
+    public Image playIcon;    
+    public Image pauseIcon;   
+    
     private Toggle toggle;
     private bool isVisible = false;
     
@@ -34,6 +37,28 @@ public class PlayPauseToggle : MonoBehaviour {
     void OnToggleValueChanged(bool isPaused) {
         // Aplicar l'estat de pausa
         AsteraX.TogglePause(isPaused);
+        
+        // Canviar les icones
+        if (playIcon != null) playIcon.gameObject.SetActive(!isPaused);
+        if (pauseIcon != null) pauseIcon.gameObject.SetActive(isPaused);
+        
+        // Obtener la referencia al PlayerShip
+        PlayerShip playerShip = FindObjectOfType<PlayerShip>();
+        if (playerShip != null) {
+            // Desactivar el component sencer per evitar qualsevol interacció
+            playerShip.enabled = !isPaused;
+            
+            // També desactivar el Rigidbody per evitar moviments físics
+            Rigidbody rb = playerShip.GetComponent<Rigidbody>();
+            if (rb != null) {
+                rb.isKinematic = isPaused;
+                if (!isPaused) {
+                    // Reiniciar la velocitat quan es reprèn el joc
+                    rb.velocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
+                }
+            }
+        }
     }
     
     void OnGameStateChanged() {

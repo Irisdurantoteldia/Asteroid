@@ -38,12 +38,26 @@ public class LevelAdvancePanel : MonoBehaviour {
             if (shouldBeActive && levelText != null) {
                 // Mostrar el nivel actual y la configuración del siguiente
                 int completedLevel = AsteraX.LEVEL;
+                int nextLevel = completedLevel + 1;
                 LevelManager levelManager = FindObjectOfType<LevelManager>();
                 string configText = "";
                 if (levelManager != null) {
+                    // Guardar los valores actuales
+                    int currentInitial = levelManager.initialAsteroids;
+                    int currentChildren = levelManager.childrenPerAsteroid;
+                    
+                    // Simular la configuración del siguiente nivel
+                    levelManager.currentLevel = nextLevel;
+                    levelManager.ParseLevelSettings();
+                    
                     configText = $"\n\n{levelManager.initialAsteroids} asteroides, {levelManager.childrenPerAsteroid} fills";
+                    
+                    // Restaurar los valores originales
+                    levelManager.currentLevel = completedLevel;
+                    levelManager.initialAsteroids = currentInitial;
+                    levelManager.childrenPerAsteroid = currentChildren;
                 }
-                levelText.text = $"NIVELL {completedLevel} COMPLETAT{configText}";
+                levelText.text = $"NIVELL {nextLevel} {configText}";
                 Debug.Log($"Panel de avance de nivel activado para el nivel: {completedLevel}");
             }
         }
