@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2623744398792778487}
   - component: {fileID: 1392062902727865467}
   m_Layer: 0
-  m_Name: Velocity
+  m_Name: Speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -67,23 +67,14 @@ public class AsteraX : MonoBehaviour
         // Afegir els prefabs que existeixen
         if (S.speedPowerUpPrefab != null) {
             availablePowerUps.Add(S.speedPowerUpPrefab);
-            Debug.Log("SpeedPowerUp disponible");
-        } else {
-            Debug.LogWarning("SpeedPowerUp prefab no assignat!");
         }
         
         if (S.shieldPowerUpPrefab != null) {
             availablePowerUps.Add(S.shieldPowerUpPrefab);
-            Debug.Log("ShieldPowerUp disponible");
-        } else {
-            Debug.LogWarning("ShieldPowerUp prefab no assignat!");
-        }
+        } 
         
         if (S.tripleShotPowerUpPrefab != null) {
             availablePowerUps.Add(S.tripleShotPowerUpPrefab);
-            Debug.Log("TripleShotPowerUp disponible");
-        } else {
-            Debug.LogWarning("TripleShotPowerUp prefab no assignat!");
         }
         
         // Si no hi ha cap prefab disponible, sortir
@@ -98,7 +89,6 @@ public class AsteraX : MonoBehaviour
         
         // Crear el power-up
         Instantiate(selectedPowerUp, position, Quaternion.identity);
-        Debug.Log("Power-up especial generat a la posició: " + position + ", Tipus: " + selectedPowerUp.name);
     }
     static public int NumInitialAsteroids {
         get { return _numInitialAsteroids; }

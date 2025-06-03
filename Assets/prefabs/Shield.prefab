@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6899090503231873274}
   - component: {fileID: 576358289613040328}
   - component: {fileID: 5895459027387928755}
-  - component: {fileID: 2197764566378515767}
   - component: {fileID: 7731257447596768876}
+  - component: {fileID: 1286079747285682003}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 586.5635, y: 231.42758, z: 1.4075}
-  m_LocalScale: {x: 0.10964793, y: 0.10964793, z: 31.651558}
+  m_LocalScale: {x: 0.06600225, y: 0.06600225, z: 46.772137}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -114,7 +114,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &2197764566378515767
+--- !u!114 &7731257447596768876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693150411627897610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fd94184d20d371459dd2992f09b03c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 5
+  shieldVisualPrefab: {fileID: 3038009849145417796, guid: 51edd1ea69bbbe0458bd5e1ce47ed14e,
+    type: 3}
+  maxHits: 3
+--- !u!65 &1286079747285682003
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,21 +149,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 25.000004, y: 25.000004, z: 0.2}
+  m_Size: {x: 25, y: 25, z: 0.19999999}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7731257447596768876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693150411627897610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fd94184d20d371459dd2992f09b03c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifetime: 5
-  shieldVisualPrefab: {fileID: 3038009849145417796, guid: 51edd1ea69bbbe0458bd5e1ce47ed14e,
-    type: 3}
-  maxHits: 3
