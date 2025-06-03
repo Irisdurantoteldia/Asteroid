@@ -1009,6 +1009,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac05fa88f37f84120b45a830d68341b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  extraLifePowerUpPrefab: {fileID: 1693150411627897610, guid: 0d9ff6c0841835a4eaf0aefb36a2c643,
+    type: 3}
+  speedPowerUpPrefab: {fileID: 1693150411627897610, guid: b176795882a916b4cb4a0bff2e5c9ca4,
+    type: 3}
+  shieldPowerUpPrefab: {fileID: 1693150411627897610, guid: 9606230d3c5babe46921f59eb8e55bf7,
+    type: 3}
+  tripleShotPowerUpPrefab: {fileID: 1693150411627897610, guid: 8f29b8af461ef5f4289cd2457ce24453,
+    type: 3}
   asteroidsSO: {fileID: 11400000, guid: 2b6cec6ca77fe4d49968b9db06f6e657, type: 2}
   levelProgression: 1:3/2,2:4/2,3:3/3,4:4/3,5:5/3,6:3/4,7:4/4,8:5/4,9:6/4,10:3/5
   _gameState: 0
@@ -2987,7 +2995,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -38.33358, w: 0}
+  m_margin: {x: 0, y: 0, z: -121.35171, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

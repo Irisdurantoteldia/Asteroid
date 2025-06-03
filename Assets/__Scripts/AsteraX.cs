@@ -21,7 +21,86 @@ public class AsteraX : MonoBehaviour
     static private int             _numInitialAsteroids = -1;
     static private int             _numAsteroidChildren = -1;
     
-    static public int NumInitialAsteroids { 
+    // Nova variable per al comptador d'asteroides destruïts
+    static private int            _destroyedAsteroids = 0;
+    static public int             DESTROYED_ASTEROIDS { get { return _destroyedAsteroids; } }
+    
+    // Referència al prefab del power-up de vida extra
+    [Header("Power-Ups")]
+    public GameObject extraLifePowerUpPrefab;
+    public GameObject speedPowerUpPrefab;
+    public GameObject shieldPowerUpPrefab;
+    public GameObject tripleShotPowerUpPrefab;
+
+    // Modificar el mètode AsteroidDestroyed
+    static public void AsteroidDestroyed(Vector3 position)
+    {
+        _destroyedAsteroids++;
+        
+        // Comprovar si cal generar un power-up (cada 10 asteroides)
+        if (_destroyedAsteroids % 10 == 0 && S != null && S.extraLifePowerUpPrefab != null)
+        {
+            // Crear el power-up a la posició de l'últim asteroide destruït
+            Instantiate(S.extraLifePowerUpPrefab, position, Quaternion.identity);
+            Debug.Log("Power-up de vida extra generat a la posició: " + position);
+        }
+        
+        // Comprovar si només queden 2 asteroides
+        if (ASTEROIDS.Count == 3 && S != null) // Canviar de 2 a 3 perquè encara no s'ha eliminat l'asteroide actual
+        {
+            // Generar un power-up aleatori
+            GenerateRandomPowerUp(position);
+            Debug.Log("Queden 2 asteroides! Generant power-up especial.");
+        }
+    }
+
+    // Afegir aquest nou mètode a la classe AsteraX
+    static private void GenerateRandomPowerUp(Vector3 position)
+    {
+        if (S == null) return;
+        
+        Debug.Log("Intentant generar power-up especial. Asteroides restants: " + ASTEROIDS.Count);
+        
+        // Llista de prefabs disponibles
+        List<GameObject> availablePowerUps = new List<GameObject>();
+        
+        // Afegir els prefabs que existeixen
+        if (S.speedPowerUpPrefab != null) {
+            availablePowerUps.Add(S.speedPowerUpPrefab);
+            Debug.Log("SpeedPowerUp disponible");
+        } else {
+            Debug.LogWarning("SpeedPowerUp prefab no assignat!");
+        }
+        
+        if (S.shieldPowerUpPrefab != null) {
+            availablePowerUps.Add(S.shieldPowerUpPrefab);
+            Debug.Log("ShieldPowerUp disponible");
+        } else {
+            Debug.LogWarning("ShieldPowerUp prefab no assignat!");
+        }
+        
+        if (S.tripleShotPowerUpPrefab != null) {
+            availablePowerUps.Add(S.tripleShotPowerUpPrefab);
+            Debug.Log("TripleShotPowerUp disponible");
+        } else {
+            Debug.LogWarning("TripleShotPowerUp prefab no assignat!");
+        }
+        
+        // Si no hi ha cap prefab disponible, sortir
+        if (availablePowerUps.Count == 0) {
+            Debug.LogError("No hi ha cap prefab de power-up disponible!");
+            return;
+        }
+        
+        // Seleccionar un power-up aleatori
+        int randomIndex = UnityEngine.Random.Range(0, availablePowerUps.Count);
+        GameObject selectedPowerUp = availablePowerUps[randomIndex];
+        
+        // Crear el power-up
+        Instantiate(selectedPowerUp, position, Quaternion.identity);
+        Debug.Log("Power-up especial generat a la posició: " + position + ", Tipus: " + selectedPowerUp.name);
+    }
+    static public int NumInitialAsteroids {
         get { return _numInitialAsteroids; }
         set { _numInitialAsteroids = value; }
     }
@@ -137,6 +216,9 @@ public class AsteraX : MonoBehaviour
     public void StartLevel(int levelNum) {
         LEVEL = levelNum;
         ParseLevelProgression(levelNum);
+        
+        // Reiniciar el comptador d'asteroides destruïts
+        _destroyedAsteroids = 0;
         
         // Configurar el nombre de fills per asteroide al SO
         asteroidsSO.numSmallerAsteroidsToSpawn = _numAsteroidChildren;

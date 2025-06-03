@@ -80,30 +80,48 @@ public class PlayerShip : MonoBehaviour
     }
 
 
+    // Afegir aquest event a la classe PlayerShip
+    public delegate void FireEventHandler(Vector3 direction);
+    public event FireEventHandler OnFire;
+    
+    // Modificar el mètode Fire per invocar l'event
     void Fire()
     {
         // Get direction to the mouse
         Vector3 mPos = Input.mousePosition;
         mPos.z = -Camera.main.transform.position.z;
         Vector3 mPos3D = Camera.main.ScreenToWorldPoint(mPos);
-
+        Vector3 direction = mPos3D - transform.position;
+        
         // Instantiate the Bullet and set its direction
         GameObject go = Instantiate<GameObject>(bulletPrefab);
         go.transform.position = transform.position;
         go.transform.LookAt(mPos3D);
+        
+        // Invocar l'event de dispar
+        OnFire?.Invoke(direction);
     }
 
+    // Modificar el mètode OnCollisionEnter per comprovar si hi ha un escut actiu
     void OnCollisionEnter(Collision collision)
     {
         Asteroid a = collision.gameObject.GetComponent<Asteroid>();
         if (a == null) {
             return;
         }
-
+    
         if (Time.time < LAST_COLLISION + COLLISION_DELAY) {
             return;
         } else {
             LAST_COLLISION = Time.time;
+        }
+    
+        // Comprovar si hi ha un escut actiu
+        ShieldController shield = GetComponentInChildren<ShieldController>();
+        if (shield != null && shield.AbsorbHit())
+        {
+            // L'escut ha absorbit l'impacte
+            return;
         }
 
         JUMPS--;

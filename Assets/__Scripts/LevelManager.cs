@@ -25,7 +25,6 @@ public class LevelManager : MonoBehaviour
     
     void Awake()
     {
-        Debug.Log("LevelManager Awake");
         // Subscribe to game state change event
         AsteraX.GAME_STATE_CHANGE_DELEGATE += OnGameStateChange;
         
@@ -35,7 +34,6 @@ public class LevelManager : MonoBehaviour
     
     void Start()
     {
-        Debug.Log("LevelManager Start");
         // Initialize the game in main menu state
         if (AsteraX.GAME_STATE == AsteraX.eGameState.none)
         {
@@ -45,7 +43,6 @@ public class LevelManager : MonoBehaviour
     
     void OnDestroy()
     {
-        Debug.Log("LevelManager OnDestroy");
         // Unsubscribe from game state change event
         if (AsteraX.GAME_STATE_CHANGE_DELEGATE != null)
         {

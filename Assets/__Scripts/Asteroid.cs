@@ -193,6 +193,9 @@ public class Asteroid : MonoBehaviour
             {
                 Destroy(otherGO);
                 AsteraX.AddScore(AsteraX.AsteroidsSO.pointsForAsteroidSize[size]);
+                
+                // Notificar que s'ha destruït un asteroide abans d'eliminar-lo
+                AsteraX.AsteroidDestroyed(transform.position);
             }
 
             if (size > 1)
