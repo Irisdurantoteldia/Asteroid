@@ -6,21 +6,21 @@ public class TripleShotPowerUp : PowerUp
 {
     [Header("Set in Inspector")]
     public int maxShots = 20;
-    public float sideAngle = 15f; // Angle en graus per als dispars laterals
+    public float sideAngle = 45f; // Ángulo en grados para los disparos laterales
     
     protected override void ApplyPowerUp()
     {
         if (PlayerShip.S != null)
         {
-            // Afegir el component TripleShotController al jugador
+            // Añadir el componente TripleShotController al jugador
             TripleShotController controller = PlayerShip.S.gameObject.AddComponent<TripleShotController>();
             controller.Initialize(maxShots, sideAngle);
-            Debug.Log("Triple dispar activat! Durarà " + maxShots + " dispars.");
+            Debug.Log("Triple disparo activado! Durará " + maxShots + " disparos.");
         }
     }
 }
 
-// Classe auxiliar per gestionar el triple dispar
+// Clase auxiliar para gestionar el triple disparo
 public class TripleShotController : MonoBehaviour
 {
     private int shotsRemaining;
@@ -33,36 +33,62 @@ public class TripleShotController : MonoBehaviour
         sideAngle = angle;
         playerShip = GetComponent<PlayerShip>();
         
-        // Subscriure's a l'event de dispar del jugador
-        // Nota: Caldrà modificar PlayerShip per afegir aquest event
+        // Suscribirse al evento de disparo del jugador
+        if (playerShip != null)
+        {
+            playerShip.OnFire += OnPlayerFire;
+            Debug.Log("TripleShotController suscrito al evento OnFire");
+        }
     }
     
-    // Aquest mètode serà cridat quan el jugador dispari
+    private void OnDestroy()
+    {
+        // Desuscribirse del evento cuando se destruya el componente
+        if (playerShip != null)
+        {
+            playerShip.OnFire -= OnPlayerFire;
+        }
+    }
+    
+    // Este método será llamado cuando el jugador dispare
     public void OnPlayerFire(Vector3 direction)
     {
         if (shotsRemaining <= 0)
         {
-            // Eliminar aquest component quan s'acabin els dispars
+            // Eliminar este componente cuando se acaben los disparos
             Destroy(this);
             return;
         }
         
-        // Crear els dos dispars addicionals
+        // Crear los dos disparos adicionales
         CreateSideShot(direction, sideAngle);
         CreateSideShot(direction, -sideAngle);
         
         shotsRemaining--;
-        Debug.Log("Triple dispar! Queden: " + shotsRemaining);
+        Debug.Log("Triple disparo! Quedan: " + shotsRemaining);
     }
     
     private void CreateSideShot(Vector3 direction, float angle)
     {
-        // Rotar la direcció segons l'angle
+        // Obtener la posición del mouse en 3D (igual que en PlayerShip.Fire())
+        Vector3 mPos = Input.mousePosition;
+        mPos.z = -Camera.main.transform.position.z;
+        Vector3 mPos3D = Camera.main.ScreenToWorldPoint(mPos);
+        
+        // Crear una rotación basada en el ángulo alrededor del eje Z
         Quaternion rotation = Quaternion.Euler(0, 0, angle);
+        
+        // Calcular la nueva posición objetivo rotando la dirección original
         Vector3 rotatedDirection = rotation * direction;
+        Vector3 targetPosition = transform.position + rotatedDirection;
         
         // Crear la bala
         GameObject bullet = Instantiate(playerShip.bulletPrefab, transform.position, Quaternion.identity);
-        bullet.transform.LookAt(transform.position + rotatedDirection);
+        
+        // Hacer que la bala mire hacia la dirección rotada
+        bullet.transform.LookAt(targetPosition, Vector3.back);
+        
+        // No necesitamos establecer la velocidad manualmente, ya que el script Bullet lo hace en su método Start
+        // basándose en la dirección hacia donde mira la bala (transform.forward)
     }
 }
