@@ -11,6 +11,15 @@ A classic arcade space shooter developed with Unity featuring 10 progressive lev
 ### Objective
 Destroy all asteroids to advance to the next level. Survive as long as possible and get the highest score!
 
+### Screen Wrapping
+The screen wraps around:
+- 🔼 Go off the **top** → appear at the **bottom**
+- 🔽 Go off the **bottom** → appear at the **top**
+- ◀️ Go off the **left** → appear on the **right**
+- ▶️ Go off the **right** → appear on the **left**
+
+You're never off-screen!
+
 ## 🗺️ Levels
 The game consists of **10 levels** with increasing difficulty:
 - Each level has more initial asteroids
