@@ -45,7 +45,3 @@ You start with **3 lives**. Colliding with an asteroid costs one life. Game over
 - **Engine**: Unity
 - **Language**: C#
 - **Style**: 3D objects with 2D background
-
-
----
-Made with ❤️ by [@Irisdurantoteldia](https://github.com/Irisdurantoteldia)
